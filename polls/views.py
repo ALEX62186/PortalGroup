@@ -13,9 +13,11 @@ class PollListView(ListView):
     context_object_name = 'polls'
 
 
+
 def poll_detail(request, poll_id):
     poll = get_object_or_404(Poll, id=poll_id)
     return render(request, 'polls/poll_detail.html', {'poll': poll})
+
 
 
 @login_required
@@ -42,9 +44,11 @@ def vote_poll(request, poll_id):
     return redirect('poll_detail', poll_id=poll.id)
 
 
+# --- Результаты опроса ---
 def poll_results(request, poll_id):
     poll = get_object_or_404(Poll, pk=poll_id)
     return render(request, 'polls/poll_results.html', {'poll': poll})
+
 
 
 class PollForm(forms.ModelForm):
@@ -59,9 +63,9 @@ class ChoiceForm(forms.ModelForm):
         fields = ['text']
 
 
+
 @staff_member_required
 def create_poll(request):
-    
     ChoiceFormSet = inlineformset_factory(
         Poll, Choice, form=ChoiceForm, extra=1, can_delete=True
     )
@@ -85,3 +89,33 @@ def create_poll(request):
         'polls/create_poll.html',
         {'form': form, 'formset': formset}
     )
+
+
+
+@staff_member_required
+def edit_poll(request, poll_id):
+    poll = get_object_or_404(Poll, id=poll_id)
+    ChoiceFormSet = inlineformset_factory(Poll, Choice, form=ChoiceForm, extra=0, can_delete=True)
+
+    if request.method == 'POST':
+        form = PollForm(request.POST, instance=poll)
+        formset = ChoiceFormSet(request.POST, instance=poll)
+        if form.is_valid() and formset.is_valid():
+            form.save()
+            formset.save()
+            return redirect('poll_detail', poll_id=poll.id)
+    else:
+        form = PollForm(instance=poll)
+        formset = ChoiceFormSet(instance=poll)
+
+    return render(request, 'polls/edit_poll.html', {'form': form, 'formset': formset, 'poll': poll})
+
+
+
+@staff_member_required
+def delete_poll(request, poll_id):
+    poll = get_object_or_404(Poll, id=poll_id)
+    if request.method == 'POST':
+        poll.delete()
+        return redirect('poll_list')
+    return render(request, 'polls/poll_confirm_delete.html', {'poll': poll})

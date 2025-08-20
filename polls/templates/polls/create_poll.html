@@ -8,9 +8,13 @@
     {{ form.as_p }}
 
     <h3>Варианты ответов</h3>
+    {{ formset.management_form }}
     <div id="choices">
-        <input type="text" name="choice_1" placeholder="Вариант 1"><br>
-        <input type="text" name="choice_2" placeholder="Вариант 2"><br>
+        {% for form in formset %}
+            <div class="choice">
+                {{ form.as_p }}
+            </div>
+        {% endfor %}
     </div>
 
     <button type="button" onclick="addChoice()">Добавить ещё вариант</button><br><br>
@@ -18,17 +22,25 @@
 </form>
 
 <script>
-let choiceCount = 2;
+let choiceCount = {{ formset.total_form_count|default:1 }};
 
 function addChoice() {
     choiceCount += 1;
     const div = document.getElementById('choices');
-    const input = document.createElement('input');
-    input.type = 'text';
-    input.name = 'choice_' + choiceCount;
-    input.placeholder = 'Вариант ' + choiceCount;
-    div.appendChild(input);
-    div.appendChild(document.createElement('br'));
+
+    const newChoice = document.createElement('div');
+    newChoice.className = 'choice';
+
+    newChoice.innerHTML = `
+        <p>
+            <label for="id_choice_set-${choiceCount}-text">Вариант ${choiceCount}:</label>
+            <input type="text" name="choices-${choiceCount}-text" required id="id_choice_set-${choiceCount}-text">
+        </p>
+    `;
+    div.appendChild(newChoice);
+
+    // Обновляем TOTAL_FORMS
+    document.getElementById('id_choices-TOTAL_FORMS').value = choiceCount + 1;
 }
 </script>
 {% endblock %}
