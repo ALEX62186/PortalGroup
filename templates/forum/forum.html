@@ -1,0 +1,9 @@
+<h2>Календар подій</h2>
+<a href="{% url 'forum:thread_create' %}">Додати подію</a>
+<ul>
+{% for event in events %}
+    <li>{{ event.title }}</li>
+{% empty %}
+    <li>Подій поки що немає</li>
+{% endfor %}
+</ul>
