@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{{ poll.title }}</h2>
+
+{% if error_message %}
+<p style="color: red;">{{ error_message }}</p>
+{% endif %}
+
+{% if poll.choices.all %}
+<form action="{% url 'vote_poll' poll.id %}" method="post">
+  {% csrf_token %}
+  {% for choice in poll.choices.all %}
+    <input type="radio" name="choice" value="{{ choice.id }}"> {{ choice.text }}<br>
+  {% endfor %}
+  <input type="submit" value="Голосовать">
+</form>
+{% else %}
+<p>Пока нет вариантов для голосования.</p>
+{% endif %}
+
+{% endblock %}

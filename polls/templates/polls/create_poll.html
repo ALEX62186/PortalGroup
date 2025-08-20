@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Создать новый опрос</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+
+    <h3>Варианты ответов</h3>
+    <div id="choices">
+        <input type="text" name="choice_1" placeholder="Вариант 1"><br>
+        <input type="text" name="choice_2" placeholder="Вариант 2"><br>
+    </div>
+
+    <button type="button" onclick="addChoice()">Добавить ещё вариант</button><br><br>
+    <button type="submit">Создать опрос</button>
+</form>
+
+<script>
+let choiceCount = 2;
+
+function addChoice() {
+    choiceCount += 1;
+    const div = document.getElementById('choices');
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.name = 'choice_' + choiceCount;
+    input.placeholder = 'Вариант ' + choiceCount;
+    div.appendChild(input);
+    div.appendChild(document.createElement('br'));
+}
+</script>
+{% endblock %}

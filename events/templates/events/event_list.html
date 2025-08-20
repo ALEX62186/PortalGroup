@@ -1,0 +1,9 @@
+<h2>Календар подій</h2>
+<a href="{% url 'event_create' %}">Додати подію</a>
+<ul>
+{% for event in events %}
+    <li>{{ event.start_time|date:"d.m.Y H:i" }} - {{ event.title }}</li>
+{% empty %}
+    <li>Подій поки що немає</li>
+{% endfor %}
+</ul>

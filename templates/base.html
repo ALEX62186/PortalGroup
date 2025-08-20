@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Мій портал{% endblock %}</title>
+    <style>
+        /* Верхнее меню */
+        .top-menu {
+            display: flex;
+            gap: 15px;
+            background-color: #333;
+            padding: 10px 20px;
+            position: sticky; /* фиксирует меню сверху */
+            top: 0;
+            z-index: 1000;
+        }
+
+        .top-menu a {
+            text-decoration: none;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .top-menu a:hover {
+            background-color: #555;
+        }
+
+        .content {
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Горизонтальное меню -->
+    <div class="top-menu">
+        <a href="/">Головна</a>
+        <a href="/events/">Календар подій</a>
+        <a href="/polls/">Опитування</a>
+        {% if user.is_staff %}
+            <a href="{% url 'create_poll' %}" style="background-color: #f44336;">➕ Добавить опрос</a>
+        {% endif %}
+        {% if user.is_authenticated %}
+            <span style="margin-left:auto; color: #fff;">Ви увійшли як {{ user.username }}</span>
+        {% endif %}
+    </div>
+
+    <!-- Основной контент страниц -->
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>
