@@ -1,0 +1,10 @@
+<h1>Список опитувань</h1>
+<ul>
+{% for poll in polls %}
+    <li>
+        <a href="{% url 'vote_poll' poll.id %}">{{ poll.title }}</a>
+    </li>
+{% empty %}
+    <li>Поки що немає опитувань</li>
+{% endfor %}
+</ul>

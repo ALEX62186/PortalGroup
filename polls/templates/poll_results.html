@@ -1,0 +1,8 @@
+<!-- polls/templates/polls/poll_results.html -->
+<h2>{{ poll.question }}</h2>
+<ul>
+  {% for choice in poll.choice_set.all %}
+    <li>{{ choice.text }} — {{ choice.votes }} голосов</li>
+  {% endfor %}
+</ul>
+<a href="{% url 'poll_list' %}">Назад к списку опросов</a>
