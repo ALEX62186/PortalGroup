@@ -13,26 +13,29 @@ class PollListView(ListView):
     context_object_name = 'polls'
 
 
-
 def poll_detail(request, poll_id):
     poll = get_object_or_404(Poll, id=poll_id)
     return render(request, 'polls/poll_detail.html', {'poll': poll})
-
 
 
 @login_required
 def vote_poll(request, poll_id):
     poll = get_object_or_404(Poll, id=poll_id)
     if request.method == 'POST':
-        try:
-            choice_id = int(request.POST['choice'])
-            selected_choice = poll.choices.get(id=choice_id)
-        except (KeyError, Choice.DoesNotExist):
+        choice_ids = request.POST.getlist('choices')  # список выбранных вариантов
+        if not choice_ids:
             return render(request, 'polls/poll_detail.html', {
                 'poll': poll,
-                'error_message': "Выберите вариант ответа."
+                'error_message': "Выберите хотя бы один вариант."
             })
-        else:
+
+        for choice_id in choice_ids:
+            try:
+                selected_choice = poll.choices.get(id=int(choice_id))
+            except Choice.DoesNotExist:
+                continue
+
+            # Сохраняем голос
             PollVote.objects.update_or_create(
                 poll=poll,
                 user=request.user,
@@ -40,15 +43,14 @@ def vote_poll(request, poll_id):
             )
             selected_choice.votes += 1
             selected_choice.save()
-            return redirect('poll_results', poll_id=poll.id)
+
+        return redirect('poll_results', poll_id=poll.id)
     return redirect('poll_detail', poll_id=poll.id)
 
 
-# --- Результаты опроса ---
 def poll_results(request, poll_id):
     poll = get_object_or_404(Poll, pk=poll_id)
     return render(request, 'polls/poll_results.html', {'poll': poll})
-
 
 
 class PollForm(forms.ModelForm):
@@ -61,7 +63,6 @@ class ChoiceForm(forms.ModelForm):
     class Meta:
         model = Choice
         fields = ['text']
-
 
 
 @staff_member_required
@@ -84,12 +85,7 @@ def create_poll(request):
         form = PollForm()
         formset = ChoiceFormSet()
 
-    return render(
-        request,
-        'polls/create_poll.html',
-        {'form': form, 'formset': formset}
-    )
-
+    return render(request, 'polls/create_poll.html', {'form': form, 'formset': formset})
 
 
 @staff_member_required
@@ -109,7 +105,6 @@ def edit_poll(request, poll_id):
         formset = ChoiceFormSet(instance=poll)
 
     return render(request, 'polls/edit_poll.html', {'form': form, 'formset': formset, 'poll': poll})
-
 
 
 @staff_member_required
