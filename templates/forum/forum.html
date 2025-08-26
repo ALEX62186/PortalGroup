@@ -1,9 +1,22 @@
-<h2>Календар подій</h2>
-<a href="{% url 'forum:thread_create' %}">Додати подію</a>
-<ul>
-{% for event in events %}
-    <li>{{ event.title }}</li>
-{% empty %}
-    <li>Подій поки що немає</li>
-{% endfor %}
-</ul>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum</title>
+</head>
+<body>
+    <h2>Forum Topics</h2>
+    {% if user.is_authenticated %}
+        <p><a href="{% url 'forum:thread_create' %}">Create New Thread</a></p>
+    {% endif %}
+    <ul>
+        {% for topic in topics %}
+            <li>{{ topic.title }} by {{ topic.created_by.username }} at {{ topic.created_at }}</li>
+        {% empty %}
+            <li>No topics yet.</li>
+        {% endfor %}
+    </ul>
+    <p><a href="{% url 'logout' %}">Logout</a></p>
+</body>
+</html>

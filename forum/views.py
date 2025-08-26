@@ -1,23 +1,26 @@
+from django.shortcuts import render
 from django.views.generic import ListView, CreateView
-from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 from .models import Topic_name, Post
 from .forms import TopicForm, PostForm
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
-
 
 def forum_home(request):
     topics = Topic_name.objects.all()
     return render(request, 'forum/forum.html', {'topics': topics})
 
-
-class TreadListView(ListView):
+class ThreadListView(ListView):
     model = Topic_name
     template_name = 'forum/forum.html'
-    contex_object_name = 'forum'
-    ordering = ['start_time']
+    context_object_name = 'topics'  # Виправлено: правильна назва змінної
+    ordering = ['-created_at']  # Виправлено: сортування за created_at у зворотному порядку
 
+class ThreadCreateView(LoginRequiredMixin, CreateView):
+    model = Topic_name  # Виправлено: створюємо тему, а не пост
+    form_class = TopicForm
+    template_name = 'forum/thread_create.html'  # Узгоджено з попередніми шаблонами
+    success_url = reverse_lazy('forum:forum')
 
-class TreadCreateView(LoginRequiredMixin, CreateView):
-    model = Post
-    template_name = 'forum/create_topic.html'
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super().form_valid(form)
