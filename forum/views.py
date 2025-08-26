@@ -12,13 +12,13 @@ def forum_home(request):
 class ThreadListView(ListView):
     model = Topic_name
     template_name = 'forum/forum.html'
-    context_object_name = 'topics'  # Виправлено: правильна назва змінної
-    ordering = ['-created_at']  # Виправлено: сортування за created_at у зворотному порядку
+    context_object_name = 'topics'
+    ordering = ['-created_at'] 
 
 class ThreadCreateView(LoginRequiredMixin, CreateView):
-    model = Topic_name  # Виправлено: створюємо тему, а не пост
+    model = Topic_name 
     form_class = TopicForm
-    template_name = 'forum/thread_create.html'  # Узгоджено з попередніми шаблонами
+    template_name = 'forum/create_topic.html' 
     success_url = reverse_lazy('forum:forum')
 
     def form_valid(self, form):
