@@ -9,6 +9,6 @@
     {{ form.as_p }}
   {% endfor %}
   <button type="submit">Сохранить</button>
+  <button href="{% url 'poll_list' %}">Отмена</button>
 </form>
-<a href="{% url 'poll_list' %}">Отмена</a>
 {% endblock %}

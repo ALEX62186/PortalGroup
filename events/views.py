@@ -28,7 +28,7 @@ def edit_event(request, event_id):
         form = EventForm(request.POST, instance=event)
         if form.is_valid():
             form.save()
-            return redirect('event_detail', event_id=event.id)
+            return redirect('event_list')
     else:
         form = EventForm(instance=event)
     return render(request, 'events/event_form.html', {'form': form, 'event': event})
