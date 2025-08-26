@@ -1,4 +1,6 @@
 <!-- polls/templates/polls/poll_results.html -->
+{% extends 'base/_base.html' %}
+{% block content %}
 <h2>{{ poll.question }}</h2>
 <ul>
   {% for choice in poll.choice_set.all %}
@@ -6,3 +8,4 @@
   {% endfor %}
 </ul>
 <a href="{% url 'poll_list' %}">Назад к списку опросов</a>
+{% endblock %}

@@ -1,3 +1,5 @@
+{% extends 'base/_base.html' %}
+{% block content %}
 <h1>Список опитувань</h1>
 <ul>
 {% for poll in polls %}
@@ -8,3 +10,4 @@
     <li>Поки що немає опитувань</li>
 {% endfor %}
 </ul>
+{% endblock %}

@@ -1,3 +1,5 @@
+{% extends 'base/_base.html' %}
+{% block content %}
 <h2>{{ poll.title }}</h2>
 
 <form method="post">
@@ -10,3 +12,4 @@
     {% endfor %}
     <button type="submit">Голосовать</button>
 </form>
+{% endblock %}

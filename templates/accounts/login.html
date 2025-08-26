@@ -1,0 +1,14 @@
+{% extends 'base/_base.html' %}
+{% block title %}Увійти{% endblock %}
+{% block content %}
+    <h2>Увійти</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if form.errors %}
+            <p style="color: red;">{{ form.errors }}</p>
+        {% endif %}
+        <button type="submit">Увійти</button>
+    </form>
+    <p><a href="{% url 'accounts:register' %}">Зареєструватися</a></p>
+{% endblock %}

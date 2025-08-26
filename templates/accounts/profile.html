@@ -1,0 +1,21 @@
+{% extends 'base/_base.html' %}
+{% block title %}Профіль{% endblock %}
+{% block content %}
+    <h2>Профіль</h2>
+    <p>Ім'я користувача: {{ user.username }}</p>
+    <p>Email: {{ user.email }}</p>
+
+    {% if user.profile.image %}
+        <img src="{{ user.profile.image.url }}" alt="Зображення профілю" style="width: 150px; height: 150px; border-radius: 50%;">
+    {% endif %}
+
+    <h3>Оновити профіль</h3>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if form.errors %}
+            <p style="color: red;">{{ form.errors }}</p>
+        {% endif %}
+        <button type="submit">Оновити</button>
+    </form>
+{% endblock %}

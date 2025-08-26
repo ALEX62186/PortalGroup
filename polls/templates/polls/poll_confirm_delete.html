@@ -1,3 +1,5 @@
+{% extends 'base/_base.html' %}
+{% block content %}
 <h2>Удалить опрос: {{ poll.title }}</h2>
 <p>Вы уверены, что хотите удалить этот опрос?</p>
 
@@ -6,3 +8,4 @@
   <button type="submit">Да, удалить</button>
 </form>
 <a href="{% url 'poll_list' %}">Отмена</a>
+{% endblock %}

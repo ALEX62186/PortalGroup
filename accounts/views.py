@@ -8,11 +8,11 @@ def register(request):
         form = RegistrationForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
-            login(request, user)  # Автоматичний логін після реєстрації
-            return redirect('profile')
+            login(request, user)
+            return redirect('accounts:profile')
     else:
         form = RegistrationForm()
-    return render(request, 'register.html', {'form': form})
+    return render(request, 'accounts/register.html', {'form': form})
 
 def user_login(request):
     if request.method == 'POST':
@@ -20,10 +20,10 @@ def user_login(request):
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('profile')
+            return redirect('accounts:profile')
     else:
         form = LoginForm()
-    return render(request, 'login.html', {'form': form})
+    return render(request, 'accounts/login.html', {'form': form})
 
 @login_required
 def profile(request):
@@ -31,11 +31,11 @@ def profile(request):
         form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
-            return redirect('profile')
+            return redirect('accounts:profile')
     else:
         form = ProfileUpdateForm(instance=request.user)
-    return render(request, 'profile.html', {'form': form})
+    return render(request, 'accounts/profile.html', {'form': form})
 
 def user_logout(request):
     logout(request)
-    return redirect('login')
+    return redirect('accounts:login')
