@@ -18,7 +18,6 @@ class EventCreateView(LoginRequiredMixin, CreateView):
     template_name = 'events/event_form.html'
 
 
-
 @staff_member_required
 def edit_event(request, event_id):
     event = get_object_or_404(Event, pk=event_id)
