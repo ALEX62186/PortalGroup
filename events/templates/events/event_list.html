@@ -1,0 +1,22 @@
+<h2>Календар подій</h2>
+{% if user.is_staff %}
+    <a href="{% url 'create_event' %}">Додати подію</a>
+{% endif %}
+
+<ul>
+{% for event in events %}
+    <li>
+        {{ event.start_time|date:"d.m.Y H:i" }} - {{ event.title }}
+        
+        {% if user.is_staff %}
+            <a href="{% url 'edit_event' event.id %}">Редактировать</a>
+            <form action="{% url 'delete_event' event.id %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Удалить</button>
+            </form>
+        {% endif %}
+    </li>
+{% empty %}
+    <li>Подій поки що немає</li>
+{% endfor %}
+</ul>

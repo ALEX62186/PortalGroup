@@ -1,0 +1,6 @@
+<h2>Вы уверены, что хотите удалить событие "{{ event.title }}"?</h2>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Да, удалить</button>
+    <a href="{% url 'event_list' %}">Отмена</a>
+</form>
