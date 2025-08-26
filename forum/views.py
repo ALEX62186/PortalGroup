@@ -9,6 +9,7 @@ def forum_home(request):
     topics = Topic_name.objects.all()
     return render(request, 'forum/forum.html', {'topics': topics})
 
+
 class ThreadListView(ListView):
     model = Topic_name
     template_name = 'forum/forum.html'

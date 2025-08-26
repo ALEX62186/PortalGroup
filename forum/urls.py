@@ -6,6 +6,6 @@ app_name = 'forum'
 
 urlpatterns = [
     path('', forum_home, name='forum'),
-    # path('', TreadListView.as_view(), name='tread_list'),
+    path('', ThreadListView.as_view(), name='tread_list'),
     path('create/', ThreadCreateView.as_view(), name='thread_create'),
 ]

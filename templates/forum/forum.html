@@ -1,10 +1,10 @@
 {% extends 'base/_base.html' %}
 {% block content %}
-<h2>Календар подій</h2>
-<a href="{% url 'forum:thread_create' %}">Додати подію</a>
+<h2>Форум</h2>
+<a href="{% url 'forum:thread_create' %}">Додатю</a>
 <ul>
-{% for event in events %}
-    <li>{{ event.title }}</li>
+{% for topic in topics %}
+    <li>{{ topic.title }}</li>
 {% empty %}
     <li>Подій поки що немає</li>
 {% endfor %}
