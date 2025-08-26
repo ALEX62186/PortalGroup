@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from .models import Topic_name, Post
@@ -12,13 +12,13 @@ def forum_home(request):
 class ThreadListView(ListView):
     model = Topic_name
     template_name = 'forum/forum.html'
-    context_object_name = 'topics'
-    ordering = ['-created_at'] 
+    context_object_name = 'topics'  # Виправлено: узгоджено з forum.html
+    ordering = ['-created_at']  # Виправлено: використовуємо created_at
 
 class ThreadCreateView(LoginRequiredMixin, CreateView):
-    model = Topic_name 
+    model = Topic_name  # Виправлено: створюємо тему
     form_class = TopicForm
-    template_name = 'forum/create_topic.html' 
+    template_name = 'forum/create_topic.html'
     success_url = reverse_lazy('forum:forum')
 
     def form_valid(self, form):
