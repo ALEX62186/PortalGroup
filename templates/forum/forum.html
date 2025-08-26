@@ -1,12 +1,20 @@
 {% extends 'base/_base.html' %}
 {% block content %}
 <h2>Форум</h2>
-<a href="{% url 'forum:thread_create' %}">Додатю</a>
+<a href="{% url 'forum:thread_create' %}">Додати тему</a>
 <ul>
 {% for topic in topics %}
-    <li><a href="{% url 'forum:thread_detail' topic.id %}">{{ topic.title }}</a></li>
+    <li>
+        <a href="{% url 'forum:thread_detail' topic.id %}">{{ topic.title }}</a>
+        {% if user.is_staff %}
+            <form method="post" action="{% url 'forum:delete_thread' topic.id %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Видалити</button>
+            </form>
+        {% endif %}
+    </li>
 {% empty %}
-    <li>Подій поки що немає</li>
+    <li>Тем поки що немає</li>
 {% endfor %}
 </ul>
 {% endblock %}

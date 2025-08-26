@@ -6,7 +6,7 @@ from .models import Topic_name
 from .forms import TopicForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-
+from django.contrib.admin.views.decorators import staff_member_required
 
 
 def forum_home(request):
@@ -35,4 +35,9 @@ def thread_detail_view(request, topic_id):
     thread = get_object_or_404(Topic_name, pk=topic_id)
     return render(request, "forum/topic_detail.html", context={"thread": thread})
 
-#class ThreadEditView():
+@staff_member_required
+def delete_thread_view(request, topic_id):
+    thread = get_object_or_404(Topic_name, pk=topic_id)
+    if request.user == thread.created_by:
+        thread.delete()
+    return render(request, 'forum/forum.html', {'thread': thread})
