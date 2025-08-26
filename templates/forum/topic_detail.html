@@ -1,9 +1,7 @@
 {% extends 'base/_base.html' %}
 {% block content %}
-<h2>{{ topic.title }}</h2>
-{% if can_edit %}
-  <a href="{% url 'forum:edit_topic' topic.id %}">Редагувати тему</a>
-{% endif %}
+<h2>{{ thread.title }}</h2>
+<h2>{{ thread.description }}</h2>
 
 <h3>Коментарі:</h3>
 {% for post in posts %}

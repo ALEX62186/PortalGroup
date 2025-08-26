@@ -2,8 +2,12 @@ from django.shortcuts import render
 from django.views.generic import ListView, CreateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from .models import Topic_name, Post
-from .forms import TopicForm, PostForm
+from .models import Topic_name
+from .forms import TopicForm
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+
+
 
 def forum_home(request):
     topics = Topic_name.objects.all()
@@ -25,3 +29,10 @@ class ThreadCreateView(LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         return super().form_valid(form)
+
+@login_required
+def thread_detail_view(request, topic_id):
+    thread = get_object_or_404(Topic_name, pk=topic_id)
+    return render(request, "forum/topic_detail.html", context={"thread": thread})
+
+#class ThreadEditView():

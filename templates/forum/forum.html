@@ -4,7 +4,7 @@
 <a href="{% url 'forum:thread_create' %}">Додатю</a>
 <ul>
 {% for topic in topics %}
-    <li>{{ topic.title }}</li>
+    <li><a href="{% url 'forum:thread_detail' topic.id %}">{{ topic.title }}</a></li>
 {% empty %}
     <li>Подій поки що немає</li>
 {% endfor %}
