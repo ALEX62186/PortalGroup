@@ -1,15 +1,22 @@
 {% extends 'base/_base.html' %}
 {% block content %}
-<h2>{{ thread.title }}</h2>
-<h2>{{ thread.description }}</h2>
-<h2>{{ thread.created_by }}</h2>
+<h2>{{ topic.title }}</h2>
+<h2>{{ topic.description }}</h2>
+<h2>{{ topic.created_by }}</h2>
 
+<hr>
 <h3>Коментарі:</h3>
-{% for post in posts %}
-  <p><strong>{{ post.author }}</strong>: {{ post.content }}</p>
+{% for comment in comments %}
+  <div style="margin-bottom: 10px;">
+    <strong>{{ comment.author.username }}</strong> — {{ comment.created_at|date:"d.m.Y H:i" }}<br>
+    {{ comment.content }}
+  </div>
+{% empty %}
+  <p>Коментарів поки немає.</p>
 {% endfor %}
 
-<h4>Додати коментар:</h4>
+<hr>
+<h3>Додати коментар:</h3>
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}

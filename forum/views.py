@@ -2,8 +2,8 @@ from django.shortcuts import render
 from django.views.generic import ListView, CreateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from .models import Topic_name
-from .forms import TopicForm
+from .models import Topic_name, Comment
+from .forms import TopicForm, CommentForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
@@ -41,3 +41,25 @@ def delete_thread_view(request, topic_id):
     if request.user == thread.created_by:
         thread.delete()
     return redirect('forum:forum')
+
+
+@login_required
+def topic_detail(request, topic_id):
+    topic = get_object_or_404(Topic_name, id=topic_id)
+    comments = topic.comments.order_by('created_at')
+    form = CommentForm()
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.topic = topic
+            comment.author = request.user
+            comment.save()
+            return redirect('forum:thread_detail', topic_id=topic.id)
+
+    return render(request, 'forum/topic_detail.html', {
+        'topic': topic,
+        'comments': comments,
+        'form': form
+    })
