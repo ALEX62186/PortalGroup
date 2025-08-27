@@ -40,4 +40,4 @@ def delete_thread_view(request, topic_id):
     thread = get_object_or_404(Topic_name, pk=topic_id)
     if request.user == thread.created_by:
         thread.delete()
-    return render(request, 'forum/forum.html', {'thread': thread})
+    return redirect('forum:forum')
