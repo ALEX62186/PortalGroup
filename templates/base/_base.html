@@ -40,6 +40,8 @@
             <a class="nav-link active" aria-current="page" href="/forum/">Форум</a>         
             <a class="nav-link active" aria-current="page" href="/events/">Календар подій</a>
             <a class="nav-link active" aria-current="page" href="/polls/">Опитування</a>
+            <a href="/materials/" style="text-decoration: none; padding: 8px 12px; background-color: #9C27B0; color: white; border-radius: 5px;">📚 Матеріали</a>
+            <a href="/diary/" style="text-decoration: none; padding: 8px 12px; background-color: #FF9800; color: white; border-radius: 5px;">📖 Електронний щоденник</a>
             {% if user.is_staff %}
                 <a class="nav-link active" aria-current="page" href="{% url 'create_poll' %}" style="background-color: #f44336;">➕ Добавить опрос</a>
             {% endif %}

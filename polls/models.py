@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from config import settings
 
 class Poll(models.Model):
     SINGLE = "single"
@@ -16,7 +17,7 @@ class Poll(models.Model):
         default=SINGLE,
         verbose_name="Тип опроса"
     )
-    created_by = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Создатель")
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Создатель")
     pub_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
 
     def __str__(self):
@@ -34,7 +35,7 @@ class Choice(models.Model):
 
 class PollVote(models.Model):
     poll = models.ForeignKey(Poll, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
     voted_at = models.DateTimeField(auto_now_add=True)
 
