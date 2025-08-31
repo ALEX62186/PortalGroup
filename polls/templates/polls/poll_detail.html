@@ -8,11 +8,16 @@
 {% endif %}
 
 {% if poll.choices.all %}
-<form action="{% url 'vote_poll' poll.id %}" method="post">
+<form action="{% url 'poll_detail' poll.id %}" method="post">
   {% csrf_token %}
   {% for choice in poll.choices.all %}
-    <input type="checkbox" name="choices" value="{{ choice.id }}"> {{ choice.text }}<br>
+    {% if poll.poll_type == "multiple" %}
+      <input type="checkbox" name="choices" value="{{ choice.id }}"> {{ choice.text }}<br>
+    {% else %}
+      <input type="radio" name="choice" value="{{ choice.id }}"> {{ choice.text }}<br>
+    {% endif %}
   {% endfor %}
+  <br>
   <input type="submit" value="Голосовать">
 </form>
 {% else %}
@@ -24,8 +29,9 @@
 <a href="{% url 'edit_poll' poll.id %}">Редактировать опрос</a> |
 <form action="{% url 'delete_poll' poll.id %}" method="post" style="display:inline;">
     {% csrf_token %}
-    <button type="submit" onclick="return confirm('Вы уверены, что хотите удалить этот опрос?')">Удалить опрос</button>
+    <button type="submit" onclick="return confirm('Удалить этот опрос?')">Удалить</button>
 </form>
 {% endif %}
-
+<br>
+<a href="{% url 'poll_results' poll.id %}">Посмотреть результаты</a>
 {% endblock %}

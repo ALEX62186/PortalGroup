@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Підтвердження видалення{% endblock %}
+
+{% block content %}
+<h2>Видалити оцінку?</h2>
+<p>Ви впевнені, що хочете видалити оцінку "{{ mark.mark }}" для {{ mark.student.last_name }} {{ mark.student.first_name }}?</p>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Так, видалити</button>
+    <a href="{% url 'diary' %}">Скасувати</a>
+</form>
+{% endblock %}
