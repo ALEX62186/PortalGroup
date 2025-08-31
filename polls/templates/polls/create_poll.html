@@ -1,46 +1,49 @@
 {% extends "base/_base.html" %}
+{% load static %}
+
+{% block title %}Создать опрос{% endblock %}
 
 {% block content %}
 <h1>Создать новый опрос</h1>
 
-<form method="post">
+<form method="post" id="poll-form">
     {% csrf_token %}
     {{ form.as_p }}
 
     <h3>Варианты ответов</h3>
-    {{ formset.management_form }}
-    <div id="choices">
-        {% for form in formset %}
-            <div class="choice">
-                {{ form.as_p }}
+    <div id="choices-container">
+        {% for choice_form in formset.forms %}
+            <div class="choice-form">
+                {{ form.text.label_tag }} {{ form.text }}
+                {{ form.DELETE }}
             </div>
         {% endfor %}
     </div>
 
-    <button type="button" onclick="addChoice()">Добавить ещё вариант</button><br><br>
-    <button type="submit">Создать опрос</button>
+    {{ formset.management_form }}
+
+    <button type="button" id="add-choice-btn">➕ Добавить вариант</button>
+    <br><br>
+    <button type="submit">Сохранить опрос</button>
 </form>
 
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script>
-let choiceCount = {{ formset.total_form_count|default:1 }};
+$(document).ready(function(){
+    // Корректно получаем TOTAL_FORMS
+    let totalForms = parseInt($('#id_choice_set-TOTAL_FORMS').val()) || 0;
 
-function addChoice() {
-    choiceCount += 1;
-    const div = document.getElementById('choices');
-
-    const newChoice = document.createElement('div');
-    newChoice.className = 'choice';
-
-    newChoice.innerHTML = `
-        <p>
-            <label for="id_choice_set-${choiceCount}-text">Вариант ${choiceCount}:</label>
-            <input type="text" name="choices-${choiceCount}-text" required id="id_choice_set-${choiceCount}-text">
-        </p>
-    `;
-    div.appendChild(newChoice);
-
-    // Обновляем TOTAL_FORMS
-    document.getElementById('id_choices-TOTAL_FORMS').value = choiceCount + 1;
-}
+    $('#add-choice-btn').click(function(){
+        $.get("{% url 'add_choice_form' %}", {form_index: totalForms})
+        .done(function(data){
+            $('#choices-container').append(data.html);
+            totalForms++;
+            $('#id_choice_set-TOTAL_FORMS').val(totalForms);
+        })
+        .fail(function(){
+            alert('Ошибка при добавлении нового варианта. Попробуйте перезагрузить страницу.');
+        });
+    });
+});
 </script>
 {% endblock %}

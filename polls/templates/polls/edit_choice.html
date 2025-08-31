@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Редактировать вариант опроса</h2>
+
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Сохранить</button>
+</form>
+
+<a href="{% url 'poll_detail' poll_id %}">Назад к опросу</a>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Создать опрос</h2>
+
+<form method="post">
+  {% csrf_token %}
+
+  <div>
+    {{ form.title.label_tag }}
+    {{ form.title }}
+  </div>
+
+  <div class="form-check">
+    {{ form.allow_multiple }}
+    {{ form.allow_multiple.label_tag }}
+  </div>
+
+  <h4>Варианты:</h4>
+  <div id="choices">
+    <input type="text" name="choice_text" class="form-control mb-2" placeholder="Введите вариант">
+  </div>
+  <button type="button" onclick="addChoice()" class="btn btn-secondary mb-3">Добавить вариант</button>
+
+  <input type="submit" class="btn btn-primary" value="Создать опрос">
+</form>
+
+<script>
+function addChoice() {
+    let div = document.getElementById('choices');
+    let input = document.createElement('input');
+    input.type = 'text';
+    input.name = 'choice_text';
+    input.placeholder = 'Введите вариант';
+    input.className = 'form-control mb-2';
+    div.appendChild(input);
+}
+</script>
+
+{% endblock %}

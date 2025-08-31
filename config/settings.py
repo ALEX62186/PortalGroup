@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
 from dotenv import load_dotenv
 import os
@@ -43,11 +44,15 @@ INSTALLED_APPS = [
 
     'events',
     'polls',
+    'materials',
+    'diary',
     'home',
     'forum',
     'accounts',
 
 ]
+
+
 
 
 MIDDLEWARE = [
@@ -135,6 +140,8 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
 LOGIN_URL = '/accounts/login/'
