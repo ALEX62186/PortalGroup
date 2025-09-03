@@ -1,0 +1,54 @@
+{% extends "base/_base.html" %}
+
+{% block title %}Галерея{% endblock %}
+
+{% block content %}
+<h1>Галерея</h1>
+
+<!-- Кнопка додавання нового матеріалу для адмінів/модераторів -->
+{% if can_edit %}
+    <a href="{% url 'material_add' %}" 
+       style="display:inline-block; margin-bottom:15px; padding:8px 12px; background-color:#4CAF50; color:white; border-radius:5px; text-decoration:none;">
+       ➕ Додати матеріал
+    </a>
+{% endif %}
+
+<div>
+  {% for material in materials %}
+    <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px; border-radius:5px;">
+      <h2>{{ material.title }}</h2>
+
+      {% if material.type == 'image' and material.file %}
+        <img src="{{ material.file.url }}" alt="{{ material.title }}" style="max-width:300px; border-radius:5px;" />
+      {% elif material.type == 'video' and material.file %}
+        <video controls style="max-width:300px; border-radius:5px;">
+          <source src="{{ material.file.url }}" type="video/mp4">
+          Ваш браузер не підтримує відтворення відео.
+        </video>
+      {% endif %}
+
+      {% if material.description %}
+        <p style="margin-top:10px; color:#333;">{{ material.description }}</p>
+      {% endif %}
+      
+      <p style="margin-top:10px; color:#666; font-size:0.9em;">Створено: {{ material.created_at|date:"d.m.Y H:i" }}</p>
+      <p style="color:#666; font-size:0.9em;">Автор: {{ material.created_by.username }}</p>
+
+      {% if can_edit %}
+        <div style="margin-top:10px;">
+          <a href="{% url 'material_edit' material.pk %}" 
+             style="margin-right:10px; color:white; background-color:#2196F3; padding:5px 10px; border-radius:3px; text-decoration:none;">
+             Редагувати
+          </a>
+          <a href="{% url 'material_delete' material.pk %}" 
+             style="color:white; background-color:#f44336; padding:5px 10px; border-radius:3px; text-decoration:none;">
+             Видалити
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  {% empty %}
+    <p>Немає доступних матеріалів.</p>
+  {% endfor %}
+</div>
+{% endblock %}

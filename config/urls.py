@@ -26,6 +26,7 @@ urlpatterns = [
     path('events/', include('events.urls')),       # События
     path('polls/', include('polls.urls')),         # Опросы
     path('materials/', include('materials.urls')), # Материалы
+    path('galery/', include('galery.urls')),
     path('diary/', include('diary.urls')),       # Электронный дневник (новое)
 ]
 
