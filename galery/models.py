@@ -15,7 +15,7 @@ class Materials(models.Model):
         upload_to='materials/',
         blank=True,
         null=True,
-        validators=[FileExtensionValidator(allowed_extensions=['jpg', 'jpeg', 'png', 'mp4', 'avi', 'mov', 'mkv'])]
+        validators=[FileExtensionValidator(allowed_extensions=['jpg', 'webp', 'jpeg', 'png', 'mp4', 'avi', 'mov', 'mkv'])]
     )
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -24,7 +24,7 @@ class Materials(models.Model):
         if not self.file:
             raise ValidationError(f"Для типу '{self.get_type_display()}' необхідно завантажити файл.")
         if self.type == 'image' and self.file:
-            if not any(self.file.name.lower().endswith(ext) for ext in ['jpg', 'jpeg', 'png']):
+            if not any(self.file.name.lower().endswith(ext) for ext in ['jpg', 'webp', 'jpeg', 'png']):
                 raise ValidationError("Для типу 'Зображення' дозволені лише файли .jpg, .jpeg, .png.")
         if self.type == 'video' and self.file:
             if not any(self.file.name.lower().endswith(ext) for ext in ['mp4', 'avi', 'mov', 'mkv']):

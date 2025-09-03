@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="uk">
 <head>
@@ -11,18 +10,32 @@
         body {
             background-color: #f8f9fa; /* Світло-сірий фон */
             color: #343a40; /* Темно-сірий текст */
+            margin-top: 56px; /* Висота navbar, щоб контент не перекривався */
+            margin-bottom: 60px; /* Висота footer, щоб контент не перекривався */
+            min-height: 100vh; /* Забезпечує мінімальну висоту для body */
+            display: flex;
+            flex-direction: column;
         }
         .navbar {
             background-color: #6c757d; /* Сірий навбар */
+            position: fixed; /* Фіксуємо navbar у верхній частині екрана */
+            top: 0;
+            width: 100%;
+            z-index: 1000; /* Щоб navbar був поверх іншого контенту */
         }
         .footer {
             background-color: #6c757d;
             color: #fff;
             padding: 10px;
             text-align: center;
-            position: absolute;
+            position: fixed; /* Фіксуємо footer у нижній частині екрана */
             bottom: 0;
             width: 100%;
+            z-index: 1000; /* Щоб footer був поверх іншого контенту */
+        }
+        .container.mt-4 {
+            flex: 1; /* Контент займає доступний простір */
+            padding-bottom: 20px; /* Додаємо відступ знизу для контенту */
         }
     </style>
 </head>
@@ -35,32 +48,51 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav me-auto">
-
-            <a class="nav-link active" aria-current="page" href="/forum/">Форум</a>         
-            <a class="nav-link active" aria-current="page" href="/events/">Календар подій</a>
-            <a class="nav-link active" aria-current="page" href="/polls/">Опитування</a>
-            {% if user.is_staff %}
-                <a class="nav-link active" aria-current="page" href="{% url 'create_poll' %}" style="background-color: #f44336;">➕ Добавить опрос</a>
-            {% endif %}
-            <a class="nav-link active" aria-current="page" href="/galery/">Галерея</a>
-            <a href="/materials/" style="text-decoration: none; padding: 8px 12px; background-color: #9C27B0; color: white; border-radius: 5px;">📚 Матеріали</a>
-            <a href="/diary/" style="text-decoration: none; padding: 8px 12px; background-color: #FF9800; color: white; border-radius: 5px;">📖 Електронний щоденник</a>
-
-      </ul>
-      <ul class="navbar-nav ms-auto">
-        {% if user.is_authenticated %}
-            <a class="nav-link active" aria-current="page" href="{% url 'accounts:profile' %}">{{ user.username }}</a>
-            <a class="nav-link active" aria-current="page" href="{% url 'accounts:logout' %}">Вийти</a>
-        {% else %}
-            <a class="nav-link active" aria-current="page" href="{% url 'accounts:login' %}">Увійти</a>
-            <a class="nav-link active" aria-current="page" href="{% url 'accounts:register' %}">Зареєструватися</a>
-        {% endif %}
-         
-      </ul>
-    </div>
-  </div>
-</nav>
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/forum/">Форум</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/events/">Календар подій</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/polls/">Опитування</a>
+                    </li>
+                    {% if user.is_staff %}
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url 'create_poll' %}" style="background-color: #f44336;">➕ Добавить опрос</a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/galery/">Галерея</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/materials/" style="text-decoration: none; padding: 8px 12px; background-color: #9C27B0; color: white; border-radius: 5px;">📚 Матеріали</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/diary/" style="text-decoration: none; padding: 8px 12px; background-color: #FF9800; color: white; border-radius: 5px;">📖 Електронний щоденник</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav ms-auto">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url 'accounts:profile' %}">{{ user.username }}</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url 'accounts:logout' %}">Вийти</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url 'accounts:login' %}">Увійти</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="{% url 'accounts:register' %}">Зареєструватися</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
 
     <!-- Основний контент -->
     <div class="container mt-4">
