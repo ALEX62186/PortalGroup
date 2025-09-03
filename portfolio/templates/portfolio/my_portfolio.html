@@ -1,0 +1,31 @@
+{% extends 'base/_base.html' %}
+
+{% block title %}Моє портфоліо{% endblock %}
+
+{% block content %}
+<h1>Мої проекти</h1>
+
+<a href="{% url 'add_project' %}">➕ Додати проект</a>
+
+{% if projects %}
+    <ul>
+        {% for project in projects %}
+            <li>
+                <h2>{{ project.title }}</h2>
+                <p>{{ project.description }}</p>
+
+                {% if project.screenshot %}
+                    <img src="{{ project.screenshot.url }}" alt="Скріншот" width="200">
+                {% endif %}
+
+                <div>
+                    <a href="{% url 'edit_project' project.pk %}">✏️ Редагувати</a> | 
+                    <a href="{% url 'delete_project' project.pk %}">🗑 Видалити</a>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>У вас ще немає проектів.</p>
+{% endif %}
+{% endblock %}

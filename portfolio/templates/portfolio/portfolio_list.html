@@ -1,0 +1,33 @@
+{% extends 'base/_base.html' %}
+
+{% block title %}Список проектов{% endblock %}
+
+{% block content %}
+<h2>Список проектов</h2>
+
+<ul>
+  {% for project in portfolios %}
+    <li>
+      <h3>{{ project.title }}</h3>
+      <p>{{ project.description }}</p>
+      {% if project.screenshot %}
+        <img src="{{ project.screenshot.url }}" width="200">
+      {% endif %}
+      {% if project.file %}
+        <a href="{{ project.file.url }}">📂 Скачать файл</a>
+      {% endif %}
+      {% if project.link %}
+        <a href="{{ project.link }}" target="_blank">Ссылка</a>
+      {% endif %}
+      <br>
+      <a href="{% url 'portfolio_update' project.pk %}">Редактировать</a> |
+      <a href="{% url 'portfolio_delete' project.pk %}">Удалить</a>
+    </li>
+  {% empty %}
+    <li>Проектов пока нет.</li>
+  {% endfor %}
+</ul>
+
+<a href="{% url 'portfolio_create' %}">➕ Добавить проект</a>
+{% endblock %}
+
