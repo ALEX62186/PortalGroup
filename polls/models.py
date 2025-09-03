@@ -1,6 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
-from config import settings
+from django.conf import settings  # Импорт для кастомного пользователя
 
 class Poll(models.Model):
     SINGLE = "single"
@@ -17,7 +16,11 @@ class Poll(models.Model):
         default=SINGLE,
         verbose_name="Тип опроса"
     )
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Создатель")
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        verbose_name="Создатель"
+    )
     pub_date = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
 
     def __str__(self):
