@@ -1,6 +1,13 @@
 {% extends 'base/_base.html' %}
+
+{% block body_class %}
+  bg-materials
+{% endblock %}
+
 {% block title %}Профіль{% endblock %}
 {% block content %}
+<div style="max-width:600px; color:white; margin:0 auto; background:#262626; padding:20px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+
     <h2>Профіль</h2>
     <p>Ім'я користувача: {{ user.username }}</p>
     <p>Email: {{ user.email }}</p>
@@ -18,4 +25,5 @@
         {% endif %}
         <button type="submit">Оновити</button>
     </form>
+</div>
 {% endblock %}

@@ -1,25 +1,58 @@
 {% extends 'base/_base.html' %}
-{% block content %}
-<h2>Календар подій</h2>
-{% if user.is_staff %}
-    <a href="{% url 'create_event' %}">Додати подію</a>
-{% endif %}
 
-<ul>
-{% for event in events %}
-    <li>
-        {{ event.start_time|date:"d.m.Y H:i" }} - {{ event.title }}
-        
-        {% if user.is_staff %}
-            <a href="{% url 'edit_event' event.id %}">Редактировать</a>
-            <form action="{% url 'delete_event' event.id %}" method="post" style="display:inline;">
-                {% csrf_token %}
-                <button type="submit">Удалить</button>
-            </form>
-        {% endif %}
-    </li>
-{% empty %}
-    <li>Подій поки що немає</li>
-{% endfor %}
-</ul>
+{% block body_class %}
+  bg-materials
+{% endblock %}
+
+
+{% block content %}
+<div style="max-width:800px; margin:0 auto; padding:20px;">
+    <h2 style="text-align:center; margin-bottom:25px;">📅 Календар подій</h2>
+
+    {% if user.is_staff %}
+        <div style="text-align:center; margin-bottom:20px;">
+            <a href="{% url 'create_event' %}"
+               style="display:inline-block; padding:10px 15px; background:#28a745; color:white; border-radius:6px; text-decoration:none; font-weight:bold;">
+               ➕ Додати подію
+            </a>
+        </div>
+    {% endif %}
+    {% if events %}
+        <ul style="list-style:none; padding:0;">
+            {% for event in events %}
+                <li style="background:#f9f9f9; border:1px solid #ddd; border-radius:8px; padding:15px; margin-bottom:12px;">
+                    <div style="font-size:16px; color:#555; font-weight:bold; margin-bottom:6px;">
+                        🗓️ {{ event.start_time|date:"d.m.Y H:i" }} — {{ event.end_time|date:"d.m.Y H:i" }}
+                    </div>
+                    <div style="font-size:18px; color:#555; font-weight:bold; margin-bottom:6px;">
+                        🎉 {{ event.title }}
+                    </div>
+                    {% if event.description %}
+                        <div style="font-size:15px; color:#555; margin-bottom:10px;">
+                            📖 {{ event.description }}
+                        </div>
+                    {% endif %}
+
+                    {% if user.is_staff %}
+                        <div>
+                            <a href="{% url 'edit_event' event.id %}"
+                               style="margin-right:10px; padding:6px 12px; background:#007bff; color:white; border-radius:5px; text-decoration:none; font-size:14px;">
+                               ✏️ Редагувати
+                            </a>
+
+                            <form action="{% url 'delete_event' event.id %}" method="post" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit"
+                                        style="padding:6px 12px; background:#dc3545; color:white; border:none; border-radius:5px; cursor:pointer; font-size:14px;">🗑️ Видалити
+                                </button>
+                            </form>
+                        </div>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p class="lead text-white" style="text-align:center; font-size:16px; color:#555;">😕 Подій поки що немає</p>
+    {% endif %}
+</div>
 {% endblock %}

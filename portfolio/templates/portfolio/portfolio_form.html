@@ -1,5 +1,9 @@
 {% extends "base/_base.html" %}
 
+{% block body_class %}
+  bg-materials
+{% endblock %}
+
 {% block title %}
     {% if object %}Редактирование проекта{% else %}Добавление проекта{% endif %}
 {% endblock %}

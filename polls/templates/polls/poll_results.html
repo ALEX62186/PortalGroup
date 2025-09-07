@@ -1,15 +1,19 @@
 {% extends "base/_base.html" %}
 
+{% block body_class %}
+  bg-materials
+{% endblock %}
+
 {% block content %}
-<h2>Результаты опроса: {{ poll.title }}</h2>
+<h2>🗳️ Результати опитування: {{ poll.title }} 📊</h2>
 
 <ul>
   {% for choice in poll.choices.all %}
-    <li>{{ choice.text }} — {{ choice.votes }} голосов</li>
+    <li>✅ {{ choice.text }} — 📈 {{ choice.votes }} голосів</li>
   {% empty %}
-    <li>Варианты ответов не добавлены.</li>
+    <li>⚠️ Варіанти відповідів ще не добавлені ❌</li>
   {% endfor %}
 </ul>
 
-<a href="{% url 'poll_list' %}">Назад к списку опросов</a>
+<a href="{% url 'poll_list' %}" class="btn btn-primary mt-3">⬅️ Вернутись до списку опитувань 🏠</a>
 {% endblock %}

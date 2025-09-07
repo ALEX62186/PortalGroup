@@ -1,5 +1,9 @@
 {% extends "base/_base.html" %}
 
+{% block body_class %}
+  bg-materials
+{% endblock %}
+
 {% block title %}Галерея{% endblock %}
 
 {% block content %}
@@ -7,40 +11,40 @@
 
 <!-- Кнопка додавання нового матеріалу для адмінів/модераторів -->
 {% if can_edit %}
-    <a href="{% url 'material_add' %}" 
+    <a href="{% url 'galery_add' %}"
        style="display:inline-block; margin-bottom:15px; padding:8px 12px; background-color:#4CAF50; color:white; border-radius:5px; text-decoration:none;">
        ➕ Додати матеріал
     </a>
 {% endif %}
 
 <div>
-  {% for material in materials %}
+  {% for galery in galerys %}
     <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px; border-radius:5px;">
-      <h2>{{ material.title }}</h2>
+      <h2>{{ galery.title }}</h2>
 
-      {% if material.type == 'image' and material.file %}
-        <img src="{{ material.file.url }}" alt="{{ material.title }}" style="max-width:300px; border-radius:5px;" />
-      {% elif material.type == 'video' and material.file %}
+      {% if galery.type == 'image' and galery.file %}
+        <img src="{{ galery.file.url }}" alt="{{ galery.title }}" style="max-width:300px; border-radius:5px;" />
+      {% elif galery.type == 'video' and galery.file %}
         <video controls style="max-width:300px; border-radius:5px;">
-          <source src="{{ material.file.url }}" type="video/mp4">
+          <source src="{{ galery.file.url }}" type="video/mp4">
           Ваш браузер не підтримує відтворення відео.
         </video>
       {% endif %}
 
-      {% if material.description %}
-        <p style="margin-top:10px; color:#333;">{{ material.description }}</p>
+      {% if galery.description %}
+        <p style="margin-top:10px; color:#333;">{{ galery.description }}</p>
       {% endif %}
       
-      <p style="margin-top:10px; color:#666; font-size:0.9em;">Створено: {{ material.created_at|date:"d.m.Y H:i" }}</p>
-      <p style="color:#666; font-size:0.9em;">Автор: {{ material.created_by.username }}</p>
+      <p style="margin-top:10px; color:white; font-size:0.9em;">Створено: {{ galery.created_at|date:"d.m.Y H:i" }}</p>
+      <p style="color:white; font-size:0.9em;">Автор: {{ galery.created_by.username }}</p>
 
       {% if can_edit %}
         <div style="margin-top:10px;">
-          <a href="{% url 'material_edit' material.pk %}" 
+          <a href="{% url 'galery_edit' galery.pk %}"
              style="margin-right:10px; color:white; background-color:#2196F3; padding:5px 10px; border-radius:3px; text-decoration:none;">
              Редагувати
           </a>
-          <a href="{% url 'material_delete' material.pk %}" 
+          <a href="{% url 'galery_delete' galery.pk %}"
              style="color:white; background-color:#f44336; padding:5px 10px; border-radius:3px; text-decoration:none;">
              Видалити
           </a>

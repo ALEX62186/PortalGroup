@@ -1,17 +1,27 @@
-{% extends 'base/_base.html' %}
-{% block content %}
+{% extends "base/_base.html" %}
 
-<h1>Список опросов</h1>
-<ul>
-{% for poll in polls %}
-    <li>
-        <a href="{% url 'poll_detail' poll.id %}">{{ poll.title }}</a>
-    </li>
+{% block body_class %}
+  bg-materials
+{% endblock %}
+
+
+{% block title %}📊 Список опитувань{% endblock %}
+{% block content %}
+<h1>📊 Опитування</h1>
+<div style="display: flex; gap: 20px; margin-bottom: 20px; flex-wrap: wrap;">
     {% if user.is_staff %}
-        <a class="nav-link active" aria-current="page" href="{% url 'create_poll' %}">➕ Добавить опрос</a>
+        <a href="{% url 'create_poll' %}" style="text-decoration: none; padding: 8px 12px; background-color: red; color: white; border-radius: 5px;">➕ Добавить опрос</a>
     {% endif %}
+</div>
+
+<ul class="list-group">
+{% for poll in polls %}
+    <li class="list-group-item d-flex justify-content-between align-items-center" style="background-color: #643ebd;">
+        <a href="{% url 'poll_detail' poll.id %}">📝 {{ poll.title }}</a>
+        <span>{{ poll.choices.count }} варіантів</span>
+    </li>
 {% empty %}
-    <li>Пока что нет опросов</li>
+    <li class="list-group-item">Поки що немає опитувань</li>
 {% endfor %}
 </ul>
 {% endblock %}

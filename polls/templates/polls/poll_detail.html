@@ -1,10 +1,16 @@
 {% extends "base/_base.html" %}
 
+{% block body_class %}
+  bg-materials
+{% endblock %}
+
+{% block title %}🗳️ {{ poll.title }}{% endblock %}
+
 {% block content %}
-<h2>{{ poll.title }}</h2>
+<h2>🗳️ {{ poll.title }}</h2>
 
 {% if error_message %}
-<p style="color: red;">{{ error_message }}</p>
+<p class="text-danger">{{ error_message }}</p>
 {% endif %}
 
 {% if poll.choices.all %}
@@ -12,26 +18,30 @@
   {% csrf_token %}
   {% for choice in poll.choices.all %}
     {% if poll.poll_type == "multiple" %}
-      <input type="checkbox" name="choices" value="{{ choice.id }}"> {{ choice.text }}<br>
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" name="choices" value="{{ choice.id }}" id="choice{{ forloop.counter }}">
+        <label class="form-check-label" for="choice{{ forloop.counter }}">{{ choice.text }}</label>
+      </div>
     {% else %}
-      <input type="radio" name="choice" value="{{ choice.id }}"> {{ choice.text }}<br>
+      <div class="form-check">
+        <input type="radio" class="form-check-input" name="choice" value="{{ choice.id }}" id="choice{{ forloop.counter }}">
+        <label class="form-check-label" for="choice{{ forloop.counter }}">{{ choice.text }}</label>
+      </div>
     {% endif %}
   {% endfor %}
-  <br>
-  <input type="submit" value="Голосовать">
+  <button type="submit" class="btn btn-primary mt-3">✅ Голосувати</button>
 </form>
 {% else %}
-<p>Пока нет вариантов для голосования.</p>
+<p>Поки нема варіантів голосування.</p>
 {% endif %}
 
 {% if user.is_staff %}
 <hr>
-<a href="{% url 'edit_poll' poll.id %}">Редактировать опрос</a> |
+<a href="{% url 'edit_poll' poll.id %}" class="btn btn-warning">✏️ Редагувати опитування</a>
+<a href="{% url 'poll_results' poll.id %}" class="btn btn-info mt-3">📊 Переглянути результати</a>
 <form action="{% url 'delete_poll' poll.id %}" method="post" style="display:inline;">
     {% csrf_token %}
-    <button type="submit" onclick="return confirm('Удалить этот опрос?')">Удалить</button>
+    <button type="submit" class="btn btn-danger" onclick="return confirm('Видалити це опитування?')">🗑️ Видалити</button>
 </form>
 {% endif %}
-<br>
-<a href="{% url 'poll_results' poll.id %}">Посмотреть результаты</a>
 {% endblock %}

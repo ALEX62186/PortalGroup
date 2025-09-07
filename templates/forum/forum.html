@@ -1,20 +1,39 @@
 {% extends 'base/_base.html' %}
+
+{% block body_class %}
+  bg-materials
+{% endblock %}
+
+{% block title %}Форум{% endblock %}
+
 {% block content %}
-<h2>Форум</h2>
-<a href="{% url 'forum:thread_create' %}">Додати тему</a>
-<ul>
-{% for topic in topics %}
-    <li>
-        <a href="{% url 'forum:thread_detail' topic.id %}">{{ topic.title }}</a>
-        {% if user.is_staff %}
-            <form method="post" action="{% url 'forum:delete_thread' topic.id %}" style="display:inline;">
-                {% csrf_token %}
-                <button type="submit">Видалити</button>
-            </form>
-        {% endif %}
-    </li>
-{% empty %}
-    <li>Тем поки що немає</li>
-{% endfor %}
-</ul>
+<div class="container mt-4">
+    <h2>💬 Форум</h2>
+
+    <!-- Кнопка создания новой темы -->
+    {% if user.is_authenticated %}
+        <a href="{% url 'forum:thread_create' %}"
+           class="btn btn-success mb-3">➕ Додати тему</a>
+    {% endif %}
+
+    <ul class="list-group">
+    {% for topic in topics %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <a href="{% url 'forum:thread_detail' topic.id %}" class="text-decoration-none">
+                📌 {{ topic.title }}
+            </a>
+
+            <!-- Кнопки удаления темы для staff -->
+            {% if user.is_staff %}
+                <form method="post" action="{% url 'forum:delete_thread' topic.id %}" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm">🗑️ Видалити</button>
+                </form>
+            {% endif %}
+        </li>
+    {% empty %}
+        <li class="list-group-item">Тем поки що немає</li>
+    {% endfor %}
+    </ul>
+</div>
 {% endblock %}

@@ -1,54 +1,81 @@
 {% extends "base/_base.html" %}
 
-{% block title %}Корисні матеріали{% endblock %}
+{% block body_class %}
+  bg-materials
+{% endblock %}
+
+{% block title %}📚 Корисні матеріали{% endblock %}
 
 {% block content %}
-<h1>Корисні матеріали</h1>
+<h1 class="mb-4 text-center">📚 Корисні матеріали</h1>
 
-<!-- Кнопка додавання нового матеріалу для адмінів/модераторів -->
+<!-- Кнопка додавання нового матеріалу -->
 {% if can_edit %}
-    <a href="{% url 'material_add' %}" 
-       style="display:inline-block; margin-bottom:15px; padding:8px 12px; background-color:#4CAF50; color:white; border-radius:5px; text-decoration:none;">
-       ➕ Додати матеріал
-    </a>
+    <div class="text-center mb-4">
+        <a href="{% url 'material_add' %}"
+           class="btn btn-success btn-lg">
+           ➕ Додати матеріал
+        </a>
+    </div>
 {% endif %}
 
-<div>
+<div class="row">
   {% for material in materials %}
-    <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px; border-radius:5px;">
-      <h2>{{ material.title }}</h2>
+    <div class="col-12 mb-4">
+      <div class="card shadow-lg border-0">
+        <div class="card-body">
+          <h3 class="card-title mb-3">📌 {{ material.title }}</h3>
 
-      {% if material.type == 'file' and material.file %}
-        <a href="{{ material.file.url }}" style="text-decoration:underline; color:#2196F3;">Завантажити файл</a>
+          <!-- Файл -->
+          {% if material.type == 'file' and material.file %}
+            <a href="{{ material.file.url }}"
+               class="btn btn-outline-primary btn-lg" download>
+               📂 Завантажити файл
+            </a>
 
-      {% elif material.type == 'image' and material.file %}
-        <img src="{{ material.file.url }}" alt="{{ material.title }}" style="max-width:300px; border-radius:5px;" />
+          <!-- Зображення -->
+          {% elif material.type == 'image' and material.file %}
+            <img src="{{ material.file.url }}"
+                 alt="{{ material.title }}"
+                 class="img-fluid rounded shadow-sm"
+                 style="max-height:600px; object-fit:contain; width:100%;" />
 
-      {% elif material.type == 'youtube' and material.url %}
-        <iframe width="560" height="315" 
-                src="{{ material.url }}" 
-                frameborder="0" allowfullscreen>
-        </iframe>
+          <!-- Відео з галереї -->
+          {% elif material.type == 'video' and material.file %}
+            <video controls class="w-100 rounded shadow-sm" style="max-height:600px;">
+              <source src="{{ material.file.url }}" type="video/mp4">
+              Ваш браузер не підтримує відео.
+            </video>
+<!-- Відео з YouTube -->
+          {% elif material.type == 'youtube' and material.url %}
+            <div class="ratio ratio-16x9 shadow-sm rounded">
+              <iframe src="{{ material.url }}"
+                      title="{{ material.title }}"
+                      allowfullscreen></iframe>
+            </div>
 
-      {% elif material.type == 'link' and material.url %}
-        <a href="{{ material.url }}" target="_blank" style="text-decoration:underline; color:#2196F3;">Перейти за посиланням</a>
-      {% endif %}
+          <!-- Посилання -->
+          {% elif material.type == 'link' and material.url %}
+            <a href="{{ material.url }}" target="_blank"
+               class="btn btn-outline-info btn-lg">
+               🌐 Перейти за посиланням
+            </a>
+          {% endif %}
 
-      {% if can_edit %}
-        <div style="margin-top:10px;">
-          <a href="{% url 'material_edit' material.pk %}" 
-             style="margin-right:10px; color:white; background-color:#2196F3; padding:5px 10px; border-radius:3px; text-decoration:none;">
-             Редагувати
-          </a>
-          <a href="{% url 'material_delete' material.pk %}" 
-             style="color:white; background-color:#f44336; padding:5px 10px; border-radius:3px; text-decoration:none;">
-             Видалити
-          </a>
+          <!-- Кнопки редагування -->
+          {% if can_edit %}
+            <div class="mt-3">
+              <a href="{% url 'material_edit' material.pk %}"
+                 class="btn btn-warning me-2">✏️ Редагувати</a>
+              <a href="{% url 'material_delete' material.pk %}"
+                 class="btn btn-danger">🗑️ Видалити</a>
+            </div>
+          {% endif %}
         </div>
-      {% endif %}
+      </div>
     </div>
   {% empty %}
-    <p>Немає доступних матеріалів.</p>
+    <p class="text-center">😔 Немає доступних матеріалів.</p>
   {% endfor %}
 </div>
 {% endblock %}

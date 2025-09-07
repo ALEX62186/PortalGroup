@@ -1,9 +1,16 @@
 {% extends 'base/_base.html' %}
+
+{% block body_class %}
+  bg-materials
+{% endblock %}
+
+
 {% block content %}
-<h1>Видалити матеріал: "{{ material.title }}"?</h1>
-<form method="post">
+<h1>🗑️ Видалити матеріал: "{{ material.title }}"?</h1>
+
+<form method="post" class="mt-3">
   {% csrf_token %}
-  <button type="submit">Так, видалити</button>
-  <a href="{% url 'materials_list' %}">Скасувати</a>
+  <button type="submit" class="btn btn-danger me-2">✅ Так, видалити</button>
+  <a href="{% url 'materials_list' %}" class="btn btn-secondary">❌ Скасувати</a>
 </form>
 {% endblock %}

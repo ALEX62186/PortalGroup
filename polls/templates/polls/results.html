@@ -1,10 +1,38 @@
 {% extends 'base/_base.html' %}
+
+{% block body_class %}
+  bg-materials
+{% endblock %}
+
+{% block title %}Результати: {{ poll.title }}{% endblock %}
+
 {% block content %}
-<h2>Результати опитування: {{ poll.question }}</h2>
-<ul>
-{% for choice in poll.choices.all %}
-    <li>{{ choice.choice_text }} - {{ choice.votes }} голосів</li>
-{% endfor %}
-</ul>
-<a href="{% url 'vote_poll' poll.id %}">Проголосувати ще раз</a>
+<div class="container mt-4">
+    <h2 class="mb-4">Результати опитування: {{ poll.title }}</h2>
+
+    {% for choice in poll.choices.all %}
+        <div class="mb-3">
+            <div class="d-flex justify-content-between">
+                <span>{{ choice.text }}</span>
+                <span>{{ choice.votes }} голосів</span>
+            </div>
+            {% with total_votes=poll.choices.all|sum:"votes" %}
+                {% if total_votes > 0 %}
+                    {% with percent=choice.votes|floatformat:2|divisibleby:total_votes|floatformat:0 %}
+                        <div class="progress">
+                            <div class="progress-bar bg-info" role="progressbar" style="width: {{ percent }}%;" aria-valuenow="{{ percent }}" aria-valuemin="0" aria-valuemax="100">{{ percent }}%</div>
+                        </div>
+                    {% endwith %}
+                {% else %}
+                    <div class="progress">
+                        <div class="progress-bar bg-info" role="progressbar" style="width: 0%;">0%</div>
+                    </div>
+                {% endif %}
+            {% endwith %}
+        </div>
+    {% endfor %}
+
+    <a href="{% url 'vote_poll' poll.id %}" class="btn btn-primary mt-3">Проголосувати ще раз</a>
+    <a href="{% url 'poll_list' %}" class="btn btn-secondary mt-3 ms-2">Повернутися до списку опитувань</a>
+</div>
 {% endblock %}

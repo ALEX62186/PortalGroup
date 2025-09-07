@@ -1,9 +1,27 @@
 {% extends 'base/_base.html' %}
+
+{% block body_class %}
+  bg-materials
+{% endblock %}
+
+
 {% block content %}
-<h1>{% if form.instance.pk %}Редагувати{% else %}Додати{% endif %} матеріал</h1>
-<form method="post" enctype="multipart/form-data">
+<div style="max-width:600px; color:white; margin:0 auto; background:#262626; padding:20px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+
+<h1>
+  {% if form.instance.pk %}
+    ✏️ Редагувати матеріал
+  {% else %}
+    <h2 style="text-align:center; margin-bottom:20px;">📘 Додати матеріал</h2>
+  {% endif %}
+</h1>
+
+<form method="post" enctype="multipart/form-data" class="mt-3">
   {% csrf_token %}
   {{ form.as_p }}
-  <button type="submit">Зберегти</button>
+  <button type="submit" class="btn btn-success">
+    💾 Зберегти
+  </button>
 </form>
+</div>
 {% endblock %}

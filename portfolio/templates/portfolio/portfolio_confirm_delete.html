@@ -1,14 +1,26 @@
 {% extends 'base/_base.html' %}
 
-{% block title %}Удаление проекта{% endblock %}
+{% block body_class %}
+  bg-materials
+{% endblock %}
+
+{% block title %}Видалення проекту{% endblock %}
 
 {% block content %}
-<h1>Удаление проекта</h1>
-<p>Вы уверены, что хотите удалить проект "{{ object.title }}"?</p>
+<div class="container mt-5">
+    <div class="card border-danger shadow-sm">
+        <div class="card-header bg-danger text-white">
+            <h3 class="mb-0">⚠ Підтвердження видалення</h3>
+        </div>
+        <div class="card-body">
+            <p class="fs-5">Ви впевнені, що хочете <strong class="text-danger">видалити</strong> проект <b>"{{ object.title }}"</b>?</p>
 
-<form method="post">
-    {% csrf_token %}
-    <button type="submit">Да, удалить</button>
-    <a href="{% url 'portfolio_list' %}">Отмена</a>
-</form>
+            <form method="post" class="d-flex gap-2 mt-3">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">🗑️ Так, видалити</button>
+                <a href="{% url 'portfolio_list' %}" class="btn btn-secondary">⬅ Скасувати</a>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

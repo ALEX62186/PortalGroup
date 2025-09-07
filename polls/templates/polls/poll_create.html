@@ -1,28 +1,39 @@
 {% extends "base/_base.html" %}
+
+{% block body_class %}
+  bg-materials
+{% endblock %}
+
+{% block title %}Створити опитування{% endblock %}
+
 {% block content %}
-<h2>Создать опрос</h2>
+<div class="container mt-4">
+    <h2 class="mb-3">Створити опитування</h2>
 
-<form method="post">
-  {% csrf_token %}
+    <form method="post">
+        {% csrf_token %}
 
-  <div>
-    {{ form.title.label_tag }}
-    {{ form.title }}
-  </div>
+        <div class="mb-3">
+            {{ form.title.label_tag }}
+            {{ form.title|add_class:"form-control" }}
+        </div>
 
-  <div class="form-check">
-    {{ form.allow_multiple }}
-    {{ form.allow_multiple.label_tag }}
-  </div>
+        <div class="form-check mb-3">
+            {{ form.allow_multiple }}
+            {{ form.allow_multiple.label_tag }}
+        </div>
 
-  <h4>Варианты:</h4>
-  <div id="choices">
-    <input type="text" name="choice_text" class="form-control mb-2" placeholder="Введите вариант">
-  </div>
-  <button type="button" onclick="addChoice()" class="btn btn-secondary mb-3">Добавить вариант</button>
+        <h4>Варіанти:</h4>
+        <div id="choices">
+            <input type="text" name="choice_text" class="form-control mb-2" placeholder="Введіть варіант">
+        </div>
+        <button type="button" onclick="addChoice()" class="btn btn-secondary mb-3">Добавити варіант</button>
 
-  <input type="submit" class="btn btn-primary" value="Создать опрос">
-</form>
+        <div>
+            <input type="submit" class="btn btn-primary" value="Створити опитування">
+        </div>
+    </form>
+</div>
 
 <script>
 function addChoice() {
@@ -35,5 +46,4 @@ function addChoice() {
     div.appendChild(input);
 }
 </script>
-
 {% endblock %}

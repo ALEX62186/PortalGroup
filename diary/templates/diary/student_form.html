@@ -1,10 +1,28 @@
 {% extends "base/_base.html" %}
+
+{% block body_class %}
+  bg-materials
+{% endblock %}
+
 {% block content %}
-<h2>{{ title }}</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Зберегти</button>
-</form>
-<a href="{% url 'diary' %}">⬅ Назад</a>
+<div style="max-width:600px; color:#white; margin:0 auto; background:#262626; padding:20px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.1);">
+
+    <h2 style="text-align:center; margin-bottom:20px;">📘 {{ title }}</h2>
+
+    <form method="post" style="margin-bottom:15px;">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit"
+                style="padding:10px 18px; background-color:#28a745; color:white; border:none; border-radius:6px; cursor:pointer; font-size:16px;">
+            💾 Зберегти
+        </button>
+    </form>
+
+    <div style="text-align:center; margin-top:10px;">
+        <a href="{% url 'diary' %}"
+           style="text-decoration:none; color:#007bff; font-size:15px;">
+           ⬅ Назад
+        </a>
+    </div>
+</div>
 {% endblock %}

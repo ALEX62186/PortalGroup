@@ -3,7 +3,7 @@ from django.conf import settings
 from django.core.validators import FileExtensionValidator
 from django.core.exceptions import ValidationError
 
-class Materials(models.Model):
+class Galerys(models.Model):
     TYPE_CHOICES = [
         ('image', 'Зображення'),
         ('video', 'Відео'),

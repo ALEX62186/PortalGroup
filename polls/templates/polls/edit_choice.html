@@ -1,14 +1,22 @@
-{% extends "base/base.html" %}
+{% extends "base/_base.html" %}
+
+{% block body_class %}
+  bg-materials
+{% endblock %}
+
+{% block title %} Редагувати варіант{% endblock %}
 
 {% block content %}
-{% block content %}
-<h2>Редактировать вариант опроса</h2>
+<div class="container mt-4">
+    <h2>Редагувати варіанти опитування</h2>
 
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Сохранить</button>
-</form>
-
-<a href="{% url 'poll_detail' poll_id %}">Назад к опросу</a>
+    <form method="post" class="mt-3">
+        {% csrf_token %}
+        <div class="mb-3">
+            {{ form.as_p }}
+        </div>
+        <button type="submit" class="btn btn-primary">Зберегти</button>
+        <a href="{% url 'poll_detail' poll_id %}" class="btn btn-secondary ms-2">Назад до опитування</a>
+    </form>
+</div>
 {% endblock %}

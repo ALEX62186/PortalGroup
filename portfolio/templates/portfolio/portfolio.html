@@ -1,8 +1,37 @@
 {% extends 'base/_base.html' %}
 
+{% block body_class %}
+  bg-materials
+{% endblock %}
+
 {% block title %}Портфоліо{% endblock %}
 
 {% block content %}
-<h1>💼 Моє портфоліо</h1>
-<p>Тут буде інформація про проекти, досягнення та інші матеріали.</p>
+<div class="container mt-4">
+    <h1 class="mb-4">💼 Моє портфоліо</h1>
+    <p class="text-muted">Тут буде інформація про проекти, досягнення та інші матеріали.</p>
+
+    <!-- Приклад відображення проектів -->
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 mt-3">
+        {% for project in projects %}
+        <div class="col">
+            <div class="card shadow-sm h-100">
+                {% if project.image %}
+                    <img src="{{ project.image.url }}" class="card-img-top" alt="{{ project.title }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ project.title }}</h5>
+                    <p class="card-text">{{ project.description|truncatechars:120 }}</p>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                    <a href="{% url 'project_detail' project.id %}" class="btn btn-primary btn-sm">🔍 Деталі</a>
+                    <a href="{{ project.link }}" target="_blank" class="btn btn-outline-secondary btn-sm">🌐 Переглянути</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-muted">Немає проектів у портфоліо.</p>
+        {% endfor %}
+    </div>
+</div>
 {% endblock %}

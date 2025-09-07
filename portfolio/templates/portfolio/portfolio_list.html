@@ -1,33 +1,47 @@
 {% extends 'base/_base.html' %}
 
-{% block title %}Список проектов{% endblock %}
-
-{% block content %}
-<h2>Список проектов</h2>
-
-<ul>
-  {% for project in portfolios %}
-    <li>
-      <h3>{{ project.title }}</h3>
-      <p>{{ project.description }}</p>
-      {% if project.screenshot %}
-        <img src="{{ project.screenshot.url }}" width="200">
-      {% endif %}
-      {% if project.file %}
-        <a href="{{ project.file.url }}">📂 Скачать файл</a>
-      {% endif %}
-      {% if project.link %}
-        <a href="{{ project.link }}" target="_blank">Ссылка</a>
-      {% endif %}
-      <br>
-      <a href="{% url 'portfolio_update' project.pk %}">Редактировать</a> |
-      <a href="{% url 'portfolio_delete' project.pk %}">Удалить</a>
-    </li>
-  {% empty %}
-    <li>Проектов пока нет.</li>
-  {% endfor %}
-</ul>
-
-<a href="{% url 'portfolio_create' %}">➕ Добавить проект</a>
+{% block body_class %}
+  bg-materials
 {% endblock %}
 
+{% block title %}Список проектів{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">📋 Список проектів</h2>
+
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        {% for project in portfolios %}
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                {% if project.screenshot %}
+                    <img src="{{ project.screenshot.url }}" class="card-img-top" alt="{{ project.title }}">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ project.title }}</h5>
+                    <p class="card-text">{{ project.description|truncatechars:150 }}</p>
+                </div>
+                <div class="card-footer d-flex justify-content-between">
+                    {% if project.file %}
+                        <a href="{{ project.file.url }}" class="btn btn-outline-secondary btn-sm">📂 Завантажити</a>
+                    {% endif %}
+                    {% if project.link %}
+                        <a href="{{ project.link }}" target="_blank" class="btn btn-outline-primary btn-sm">🌐 Посилання</a>
+                    {% endif %}
+                </div>
+                <div class="card-footer d-flex justify-content-between mt-2">
+                    <a href="{% url 'portfolio_update' project.pk %}" class="btn btn-warning btn-sm">✏ Редагувати</a>
+                    <a href="{% url 'portfolio_delete' project.pk %}" class="btn btn-danger btn-sm">🗑️ Видалити</a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-muted">Проектів поки немає.</p>
+        {% endfor %}
+    </div>
+
+    <div class="mt-4">
+        <a href="{% url 'portfolio_create' %}" class="btn btn-success">➕ Додати проект</a>
+    </div>
+</div>
+{% endblock %}

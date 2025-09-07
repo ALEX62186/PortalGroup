@@ -1,31 +1,44 @@
 {% extends 'base/_base.html' %}
 
+{% block body_class %}
+  bg-materials
+{% endblock %}
+
 {% block title %}Моє портфоліо{% endblock %}
 
 {% block content %}
-<h1>Мої проекти</h1>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="fw-bold">💼 Мої проекти</h1>
+        <a href="{% url 'add_project' %}" class="btn btn-success">➕ Додати проект</a>
+    </div>
 
-<a href="{% url 'add_project' %}">➕ Додати проект</a>
+    {% if projects %}
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {% for project in projects %}
+                <div class="col">
+                    <div class="card shadow-sm h-100">
+                        {% if project.screenshot %}
+                            <img src="{{ project.screenshot.url }}"
+                                 class="card-img-top" alt="Скріншот {{ project.title }}">
+                        {% endif %}
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title">{{ project.title }}</h5>
+                            <p class="card-text text-muted">{{ project.description }}</p>
 
-{% if projects %}
-    <ul>
-        {% for project in projects %}
-            <li>
-                <h2>{{ project.title }}</h2>
-                <p>{{ project.description }}</p>
-
-                {% if project.screenshot %}
-                    <img src="{{ project.screenshot.url }}" alt="Скріншот" width="200">
-                {% endif %}
-
-                <div>
-                    <a href="{% url 'edit_project' project.pk %}">✏️ Редагувати</a> | 
-                    <a href="{% url 'delete_project' project.pk %}">🗑 Видалити</a>
+                            <div class="mt-auto">
+                                <a href="{% url 'edit_project' project.pk %}" class="btn btn-primary btn-sm">✏️ Редагувати</a>
+                                <a href="{% url 'delete_project' project.pk %}" class="btn btn-danger btn-sm">🗑️ Видалити</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </li>
-        {% endfor %}
-    </ul>
-{% else %}
-    <p>У вас ще немає проектів.</p>
-{% endif %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info mt-3">
+            У вас ще немає проектів. Натисніть <strong>«Додати проект»</strong>, щоб створити перший 🚀
+        </div>
+    {% endif %}
+</div>
 {% endblock %}

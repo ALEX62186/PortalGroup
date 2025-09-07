@@ -1,9 +1,0 @@
-{% extends 'base/_base.html' %}
-{% block content %}
-<h1>Видалити матеріал: "{{ material.title }}"?</h1>
-<form method="post">
-  {% csrf_token %}
-  <button type="submit">Так, видалити</button>
-  <a href="{% url 'materials_list' %}">Скасувати</a>
-</form>
-{% endblock %}

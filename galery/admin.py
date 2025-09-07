@@ -1,5 +1,5 @@
 # materials/admin.py
 from django.contrib import admin
-from .models import Materials
+from .models import Galerys
 
-admin.site.register(Materials)
+admin.site.register(Galerys)

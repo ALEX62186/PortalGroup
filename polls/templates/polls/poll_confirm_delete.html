@@ -1,11 +1,20 @@
 {% extends 'base/_base.html' %}
-{% block content %}
-<h2>Удалить опрос: {{ poll.title }}</h2>
-<p>Вы уверены, что хотите удалить этот опрос?</p>
 
-<form method="post">
-  {% csrf_token %}
-  <button type="submit">Да, удалить</button>
-</form>
-<a href="{% url 'poll_list' %}">Отмена</a>
+{% block body_class %}
+  bg-materials
+{% endblock %}
+
+{% block title %} Видалити опитування{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Удалить опрос: {{ poll.title }}</h2>
+    <p class="text-danger">Ви впевнені, що хочете видалити це опитування?</p>
+
+    <form method="post" class="d-inline">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Да, видалити</button>
+    </form>
+    <a href="{% url 'poll_list' %}" class="btn btn-secondary ms-2">Відмінити</a>
+</div>
 {% endblock %}

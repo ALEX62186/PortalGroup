@@ -37,7 +37,8 @@ urlpatterns = [
     path('accounts/logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
     path('accounts/', include('django.contrib.auth.urls')),  # стандартные URL auth
     path('galery/', include('galery.urls')),
-    path('diary/', include('diary.urls')),       # Электронный дневник (новое)
+    path('diary/', include('diary.urls')), # Электронный дневник (новое)
+    path('advertisement/', include('advertisement.urls')),
 ]
 
 # Подключаем статику/медиа в режиме разработки

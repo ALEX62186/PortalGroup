@@ -1,14 +1,33 @@
 {% extends 'base/_base.html' %}
+
+{% block body_class %}
+  bg-materials
+{% endblock %}
+
+{% block title %}Редагувати опитування{% endblock %}
+
 {% block content %}
-<h2>Редактировать опрос: {{ poll.title }}</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  {{ formset.management_form }}
-  {% for form in formset %}
-    {{ form.as_p }}
-  {% endfor %}
-  <button type="submit">Сохранить</button>
-  <button href="{% url 'poll_list' %}">Отмена</button>
-</form>
+<div class="container mt-4">
+    <h2>Редагувати опитування: {{ poll.title }}</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <!-- Основная форма -->
+        <div class="mb-3">
+            {{ form.as_p }}
+        </div>
+
+        <!-- Formset для вариантов -->
+        {{ formset.management_form }}
+        {% for form in formset %}
+            <div class="mb-2 border p-2 rounded">
+                {{ form.as_p }}
+            </div>
+        {% endfor %}
+
+        <button type="submit" class="btn btn-primary">Зберегти</button>
+        <a href="{% url 'poll_list' %}" class="btn btn-secondary ms-2">Відміна</a>
+    </form>
+</div>
 {% endblock %}

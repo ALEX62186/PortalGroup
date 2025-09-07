@@ -1,18 +1,23 @@
 {% extends 'base/_base.html' %}
+
+{% block body_class %}
+  bg-materials
+{% endblock %}
+
 {% block content %}
-<h2>{{ topic.title }}</h2>
-<h2>{{ topic.description }}</h2>
-<h2>{{ topic.created_by }}</h2>
+<h2>💬 {{ topic.title }}</h2>
+<p>{{ topic.description }}</p>
+<p>Створив: {{ topic.created_by.username }} | {{ topic.created_at|date:"d.m.Y H:i" }}</p>
 
 <hr>
 <h3>Коментарі:</h3>
 {% for comment in comments %}
-  <div style="margin-bottom: 10px;">
+  <div style="margin-bottom:10px; color: #555; padding:8px; background:#f8f9fa; border-radius:5px;">
     <strong>{{ comment.author.username }}</strong> — {{ comment.created_at|date:"d.m.Y H:i" }}<br>
     {{ comment.content }}
   </div>
 {% empty %}
-  <p>Коментарів поки немає.</p>
+  <p>Поки немає коментарів. 📝 Будьте першим!</p>
 {% endfor %}
 
 <hr>
@@ -20,6 +25,6 @@
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}
-  <button type="submit">Надіслати</button>
+  <button type="submit" style="padding:8px 14px; background:#4CAF50; color:white; border:none; border-radius:5px;">📨 Надіслати</button>
 </form>
 {% endblock %}

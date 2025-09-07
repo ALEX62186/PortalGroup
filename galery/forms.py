@@ -1,7 +1,6 @@
 from django import forms
-from .models import Materials
-
-class MaterialForm(forms.ModelForm):
+from .models import Galerys
+class GaleryForm(forms.ModelForm):
     class Meta:
-        model = Materials
+        model = Galerys
         fields = ['title', 'type', 'file']

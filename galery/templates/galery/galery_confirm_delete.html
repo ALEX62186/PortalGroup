@@ -4,11 +4,10 @@
   bg-materials
 {% endblock %}
 
-
 {% block content %}
 <div style="max-width:600px; margin:0 auto; text-align:center; padding:30px; border:1px solid #f5c6cb; border-radius:10px; background-color:#f8d7da; color:#721c24;">
     <h2>⚠️Ви впевнені, що хочете видалити подію?</h2>
-    <p><strong>🗓️ {{ event.title }}</strong></p>
+    <p><strong>🗓️ {{ galery.title }}</strong></p>
 
     <form method="post" style="margin-top:20px;">
         {% csrf_token %}
@@ -16,7 +15,7 @@
                 style="background-color:#dc3545; color:white; border:none; padding:10px 20px; border-radius:5px; cursor:pointer; font-size:16px;">
             🗑️ Так, видалити
         </button>
-        <a href="{% url 'event_list' %}"
+        <a href="{% url 'galery_list' %}"
            style="margin-left:15px; background-color:#6c757d; color:white; padding:10px 20px; border-radius:5px; text-decoration:none; font-size:16px;">
            ❌ Відмінити
         </a>

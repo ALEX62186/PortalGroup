@@ -1,36 +1,40 @@
 {% extends "base/_base.html" %}
+
+{% block body_class %}
+  bg-materials
+{% endblock %}
+
 {% load static %}
 
-{% block title %}Создать опрос{% endblock %}
+{% block title %} Створити опитування 🗳️{% endblock %}
 
 {% block content %}
-<h1>Создать новый опрос</h1>
+<h1>📝 Створити нове опитування</h1>
 
 <form method="post" id="poll-form">
     {% csrf_token %}
     {{ form.as_p }}
 
-    <h3>Варианты ответов</h3>
+    <h3>💡 Варіанти відповіді</h3>
     <div id="choices-container">
         {% for choice_form in formset.forms %}
-            <div class="choice-form">
-                {{ form.text.label_tag }} {{ form.text }}
-                {{ form.DELETE }}
+            <div class="choice-form mb-2 p-2 border rounded">
+                🟢 {{ choice_form.text.label_tag }} {{ choice_form.text }}
+                {{ choice_form.DELETE }}
             </div>
         {% endfor %}
     </div>
 
     {{ formset.management_form }}
 
-    <button type="button" id="add-choice-btn">➕ Добавить вариант</button>
-    <br><br>
-    <button type="submit">Сохранить опрос</button>
+    <button type="button" id="add-choice-btn" class="btn btn-success mb-3">➕ Додати варіант</button>
+    <br>
+    <button type="submit" class="btn btn-primary">💾 Зберегти опитування</button>
 </form>
 
 <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 <script>
 $(document).ready(function(){
-    // Корректно получаем TOTAL_FORMS
     let totalForms = parseInt($('#id_choice_set-TOTAL_FORMS').val()) || 0;
 
     $('#add-choice-btn').click(function(){
@@ -41,7 +45,7 @@ $(document).ready(function(){
             $('#id_choice_set-TOTAL_FORMS').val(totalForms);
         })
         .fail(function(){
-            alert('Ошибка при добавлении нового варианта. Попробуйте перезагрузить страницу.');
+            alert('⚠️ Помилка при додавані нової відповіді. Перезавантажте сторінку!');
         });
     });
 });

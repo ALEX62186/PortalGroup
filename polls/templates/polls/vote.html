@@ -1,15 +1,27 @@
 {% extends 'base/_base.html' %}
-{% block content %}
-<h2>{{ poll.title }}</h2>
 
-<form method="post">
-    {% csrf_token %}
-    {% for choice in poll.choices.all %}
-        <label>
-            <input type="radio" name="choice" value="{{ choice.id }}">
-            {{ choice.text }}
-        </label><br>
-    {% endfor %}
-    <button type="submit">Голосовать</button>
-</form>
+{% block body_class %}
+  bg-materials
+{% endblock %}
+
+{% block title %}Голосування: {{ poll.title }}{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">{{ poll.title }}</h2>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="list-group mb-3">
+            {% for choice in poll.choices.all %}
+                <label class="list-group-item d-flex align-items-center">
+                    <input class="form-check-input me-2" type="radio" name="choice" value="{{ choice.id }}">
+                    {{ choice.text }}
+                </label>
+            {% endfor %}
+        </div>
+        <button type="submit" class="btn btn-primary">🗳 Голосувати</button>
+        <a href="{% url 'poll_results' poll.id %}" class="btn btn-secondary ms-2">Переглянути результати</a>
+    </form>
+</div>
 {% endblock %}
