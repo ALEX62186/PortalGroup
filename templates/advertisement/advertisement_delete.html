@@ -1,0 +1,26 @@
+{% extends 'base/_base.html' %}
+
+{% block body_class %}
+  bg-materials
+{% endblock %}
+
+{% block content %}
+<div style="max-width:600px; margin:0 auto; background:#fff; padding:20px; border-radius:10px; box-shadow:0 2px 8px rgba(0,0,0,0.1); text-align:center;">
+
+    <h2 style="margin-bottom:20px;">⚠️ Ви впевнені, що хочете видалити тему "<strong>{{ advert.title }}</strong>"?</h2>
+
+    <form method="post" action="{% url 'advert:delete' advert.id %}" style="display:inline-block; margin-right:10px;">
+        {% csrf_token %}
+        <button type="submit"
+                style="padding:10px 18px; background-color:#f44336; color:white; border:none; border-radius:6px; cursor:pointer; font-size:16px;">
+            🗑️ Видалити
+        </button>
+    </form>
+
+    <a href="{% url 'advertisement_list' %}"
+       style="padding:10px 18px; background-color:#2196F3; color:white; border-radius:6px; text-decoration:none; font-size:16px;">
+        ⬅ Скасувати
+    </a>
+
+</div>
+{% endblock %}
