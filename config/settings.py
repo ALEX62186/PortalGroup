@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'forum',
     'accounts',
     "portfolio", 
+    'galery',
 
 ]
 
