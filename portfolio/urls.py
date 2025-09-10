@@ -9,5 +9,3 @@ urlpatterns = [
     path('update/<int:pk>/', PortfolioUpdateView.as_view(), name='portfolio_update'),
     path('delete/<int:pk>/', PortfolioDeleteView.as_view(), name='portfolio_delete'),
 ]
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
